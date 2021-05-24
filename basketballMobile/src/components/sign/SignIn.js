@@ -1,21 +1,26 @@
 import React, { useState } from "react";
 import {ImageBackground, StyleSheet, Button, Alert, TextInput, View, Text} from "react-native";
-import {Link} from 'react-router-native';
-import { signIn } from '../../api/auth/index';
+import {Link, useHistory} from 'react-router-native';
 import signInImage from '../../static/images/signInPng.png';
+import { routePaths } from "../../common/constants/routePaths";
+import {useDispatch} from "react-redux";
+import {authSignIn} from "../../store/asyncActions/auth";
 
 export const SignIn = () => {
-    const [stateForm, setStateForm] = useState({});
+    const [signInForm, setStateForm] = useState({});
+    const dispatch = useDispatch();
+    const history = useHistory();
+
+    const redirectSuccess = () => {
+      history.replace(routePaths.main.teams);
+    };
 
     const changeState = (name, value) => {
       setStateForm((prev) => ({...prev, [name]: value}));
     };
 
-    const submitForm = async () => {
-        const s = await signIn('Auth/SignIn', JSON.stringify({
-            login: "Bezh1Rn",
-            password: "1"
-        }))
+    const submitForm = () => {
+        dispatch(authSignIn({ signInForm, redirectSuccess}));
     };
 
     return (
@@ -23,15 +28,18 @@ export const SignIn = () => {
             <ImageBackground source={signInImage} imageStyle={{ height: 300}}
                              style={styles.image}>
                 <View style={styles.containerForm}>
-                    <TextInput onChangeText={(login) => changeState('login', login)} style={styles.input}/>
-                    <TextInput onChangeText={(password) => changeState('password', password)} style={styles.input}/>
+                    <TextInput placeholder={'Введите логин'} onChangeText={(login) => changeState('login', login)} style={styles.input}/>
+                    <TextInput placeholder={'Введите пароль'} onChangeText={(password) => changeState('password', password)} style={styles.input}/>
                     <Button
                         color='#E4163A'
                         title='Sign In'
                         onPress={submitForm}
                     />
-                    <Link to="/signUp">
+                    <Link to={routePaths.auth.signUp}>
                         <Text style={{ textAlign: 'center', color: '#E4163A'}}>SignUp</Text>
+                    </Link>
+                    <Link to={routePaths.main.teams}>
+                        <Text style={{ textAlign: 'center', color: '#E4163A'}}>Teams</Text>
                     </Link>
                 </View>
             </ImageBackground>
@@ -42,6 +50,7 @@ export const SignIn = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        backgroundColor: '#F5FBFF',
     },
     containerForm: {
         padding: 12,

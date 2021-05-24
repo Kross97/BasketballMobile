@@ -1,4 +1,4 @@
-const base = 'http://dev.trainee.dex-it.ru/api/';
+const base = 'http://dev.trainee.dex-it.ru/api';
 
 const request = async (url, data, token) => {
     const headersForToken = token
