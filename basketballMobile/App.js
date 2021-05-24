@@ -28,7 +28,7 @@ const App = () => {
             <Route path={routePaths.baseAuth}>
                <BaseSignRouter />
             </Route>
-            <Route path={routePaths.main.teams}>
+            <Route path={routePaths.base}>
                <BaseDashBoard />
             </Route>
           </Switch>
