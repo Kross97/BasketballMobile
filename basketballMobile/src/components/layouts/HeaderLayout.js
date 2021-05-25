@@ -14,6 +14,7 @@ import {PersonsSVG} from '../svgComponents/Persons';
 import {PersonSVG} from '../svgComponents/Person';
 import {InputSVG} from '../svgComponents/Input';
 import {routePaths} from '../../common/constants/routePaths';
+import ImagePicker from 'react-native-image-crop-picker';
 
 export const HeaderLayout = () => {
     const location = useLocation();
@@ -28,6 +29,13 @@ export const HeaderLayout = () => {
             toValue,
             duration: 600,
         }).start();
+        ImagePicker.openPicker({
+            width: 300,
+            height: 400,
+            cropping: true
+        }).then(image => {
+            console.log(image);
+        });
     };
 
     const changeRoute = route => {
@@ -67,10 +75,10 @@ export const HeaderLayout = () => {
                         onPress={() => changeRoute(routePaths.main.teams)}
                         style={styles.menuItem}>
                         <>
-                            <PersonsSVG isTeams={location.pathname === '/teams'}/>
+                            <PersonsSVG isTeams={/\/teams/.test(location.pathname)}/>
                             <Text
                                 style={{
-                                    color: location.pathname === '/teams' ? '#E4163A' : '#DADADA',
+                                    color: /\/teams/.test(location.pathname) ? '#E4163A' : '#DADADA',
                                 }}>
                                 Teams
                             </Text>
@@ -81,10 +89,10 @@ export const HeaderLayout = () => {
                         onPress={() => changeRoute(routePaths.main.players)}
                         style={styles.menuItem}>
                         <>
-                            <PersonSVG isPlayers={location.pathname === '/players'}/>
+                            <PersonSVG isPlayers={/\/players/.test(location.pathname)}/>
                             <Text
                                 style={{
-                                    color: location.pathname === '/players' ? '#E4163A' : '#DADADA',
+                                    color: /\/players/.test(location.pathname) ? '#E4163A' : '#DADADA',
                                 }}>
                                 Players
                             </Text>
