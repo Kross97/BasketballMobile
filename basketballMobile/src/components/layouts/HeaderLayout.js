@@ -1,11 +1,19 @@
-import React, {useState, useRef} from "react";
-import {TouchableHighlight, View, Image, StyleSheet, Pressable, Animated, Text} from 'react-native';
+import React, {useState, useRef} from 'react';
+import {
+    TouchableHighlight,
+    View,
+    Image,
+    StyleSheet,
+    Pressable,
+    Animated,
+    Text,
+} from 'react-native';
 import {useLocation, useHistory} from 'react-router-native';
 import testLogo from '../../static/images/Test3.png';
-import {PersonsSVG} from "../svgComponents/Persons";
-import {PersonSVG} from "../svgComponents/Person";
-import {InputSVG} from "../svgComponents/Input";
-import {routePaths} from "../../common/constants/routePaths";
+import {PersonsSVG} from '../svgComponents/Persons';
+import {PersonSVG} from '../svgComponents/Person';
+import {InputSVG} from '../svgComponents/Input';
+import {routePaths} from '../../common/constants/routePaths';
 
 export const HeaderLayout = () => {
     const location = useLocation();
@@ -22,7 +30,7 @@ export const HeaderLayout = () => {
         }).start();
     };
 
-    const changeRoute = (route) => {
+    const changeRoute = route => {
         history.push(route);
         toggleMenu();
     };
@@ -34,8 +42,7 @@ export const HeaderLayout = () => {
                     activeOpacity={0.6}
                     underlayColor="#DDDDDD"
                     style={styles.buttonTouch}
-                    onPress={toggleMenu}
-                >
+                    onPress={toggleMenu}>
                     <View style={styles.button}>
                         <View style={styles.buttonDivider}/>
                         <View style={styles.buttonDivider}/>
@@ -44,27 +51,55 @@ export const HeaderLayout = () => {
                 </TouchableHighlight>
                 <Image style={styles.logo} source={testLogo}/>
             </View>
-            {isMenuShow && <Pressable style={styles.backgroundMenu} onPress={toggleMenu}><View/></Pressable>}
-            <Animated.View style={[
-                styles.menu,
-                {
-                    left: leftOffset,
-                }
-            ]}>
+            {isMenuShow && (
+                    <View style={styles.backgroundMenu} pointerEvents={'box-only'}/>
+            )}
+            <Animated.View
+                style={[
+                    styles.menu,
+                    {
+                        left: leftOffset,
+                    },
+                ]}>
                 <View style={styles.menuItems}>
-                    <Pressable onPress={() => changeRoute(routePaths.main.teams)} style={styles.menuItem}>
-                        <PersonsSVG isTeams={location.pathname === '/teams'}/>
-                        <Text style={{color: location.pathname === '/teams' ? '#E4163A' : '#DADADA'}}>Teams</Text>
-                    </Pressable>
-                    <Pressable onPress={() => changeRoute(routePaths.main.players)} style={styles.menuItem}>
-                        <PersonSVG isPlayers={location.pathname === '/players'}/>
-                        <Text style={{color: location.pathname === '/players' ? '#E4163A' : '#DADADA'}}>Players</Text>
-                    </Pressable>
+                    <TouchableHighlight
+                        underlayColor={'#6b6b6b'}
+                        onPress={() => changeRoute(routePaths.main.teams)}
+                        style={styles.menuItem}>
+                        <>
+                            <PersonsSVG isTeams={location.pathname === '/teams'}/>
+                            <Text
+                                style={{
+                                    color: location.pathname === '/teams' ? '#E4163A' : '#DADADA',
+                                }}>
+                                Teams
+                            </Text>
+                        </>
+                    </TouchableHighlight>
+                    <TouchableHighlight
+                        underlayColor={'#6b6b6b'}
+                        onPress={() => changeRoute(routePaths.main.players)}
+                        style={styles.menuItem}>
+                        <>
+                            <PersonSVG isPlayers={location.pathname === '/players'}/>
+                            <Text
+                                style={{
+                                    color: location.pathname === '/players' ? '#E4163A' : '#DADADA',
+                                }}>
+                                Players
+                            </Text>
+                        </>
+                    </TouchableHighlight>
                 </View>
-                <Pressable onPress={() => changeRoute(routePaths.baseAuth)} style={[styles.menuItem, { flex: 0.1}]}>
-                    <InputSVG />
-                    <Text style={{color: '#E4163A'}}>Sign out</Text>
-                </Pressable>
+                <TouchableHighlight
+                    underlayColor={'#6b6b6b'}
+                    onPress={() => changeRoute(routePaths.baseAuth)}
+                    style={[styles.menuItem, {flex: 0.1}]}>
+                    <>
+                        <InputSVG/>
+                        <Text style={{color: '#E4163A'}}>Sign out</Text>
+                    </>
+                </TouchableHighlight>
             </Animated.View>
         </>
     );
@@ -107,7 +142,7 @@ const styles = StyleSheet.create({
         left: -10,
         right: -10,
         bottom: -15,
-        elevation: 10,
+        elevation: 299,
         position: 'absolute',
         backgroundColor: 'rgba(0,0,0, 0.8)',
     },
@@ -117,7 +152,7 @@ const styles = StyleSheet.create({
         top: -15,
         bottom: -15,
         width: 200,
-        elevation: 11,
+        elevation: 300,
         position: 'absolute',
         backgroundColor: '#fff',
     },
